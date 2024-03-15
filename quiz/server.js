@@ -54,3 +54,24 @@ app.post('/write/adduser', (req, res) => {
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`)
 })
+
+app.use('/read/username', addMsgToRequest);
+app.get('/read/username/:input', (req, res) => {
+  let name = req.params.input;
+  let user_name = req.users.filter(function(user) {
+    return user.username === name;
+  });
+  console.log(user_name);
+  if(user_name.length === 0 ) {
+    res.send({
+      error:{ message: `${name} not found`, status: 400}
+    });
+  }
+  else{
+    res.send(user_name);  
+  }
+});
+
+app.listen(port, () => {
+  console.log(`Example app listening on port ${port}`)
+})
